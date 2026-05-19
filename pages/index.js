@@ -69,7 +69,7 @@ export default function Home() {
   return (
     <div style={{ minHeight:'100vh', background:'#f7f7f7', fontFamily:'sans-serif' }}>
       {/* ヘッダー */}
-      <div style={{ background:'#c0392b', color:'#fff', padding:'14px 16px', position:'sticky', top:0, zIndex:100 }}>
+      <div style={{ background:'#27ae60', color:'#fff', padding:'14px 16px', position:'sticky', top:0, zIndex:100 }}>
         <div style={{ maxWidth:480, margin:'0 auto', display:'flex', alignItems:'center', gap:10 }}>
           {step > 1 && !done && (
             <button onClick={() => { if(step===2){setStep(1);setTeacher(null);} else if(step===3){setStep(2);setSelSlot(null);} }}
@@ -125,7 +125,7 @@ export default function Home() {
                 <div style={{ display:'flex', gap:8, overflowX:'auto', paddingBottom:4, marginBottom:16 }}>
                   {dates.map(d => (
                     <div key={d} onClick={() => { setSelDate(d); setSelSlot(null); }}
-                      style={{ flexShrink:0, padding:'8px 14px', borderRadius:20, border:`1.5px solid ${d===selDate?'#c0392b':'#ddd'}`, fontSize:13, cursor:'pointer', background:d===selDate?'#c0392b':'#fff', color:d===selDate?'#fff':'#555', fontWeight:d===selDate?700:'normal' }}>
+                      style={{ flexShrink:0, padding:'8px 14px', borderRadius:20, border:`1.5px solid ${d===selDate?'#27ae60':'#ddd'}`, fontSize:13, cursor:'pointer', background:d===selDate?'#27ae60':'#fff', color:d===selDate?'#fff':'#555', fontWeight:d===selDate?700:'normal' }}>
                       {formatDate(d)}
                     </div>
                   ))}
@@ -136,7 +136,7 @@ export default function Home() {
                     const isSel = selSlot?.startTime === s.startTime;
                     return (
                       <div key={s.startTime} onClick={() => setSelSlot(s)}
-                        style={{ padding:'10px 4px', borderRadius:10, border:`1.5px solid ${isSel?'#c0392b':'#e0e0e0'}`, fontSize:13, cursor:'pointer', background:isSel?'#c0392b':'#fff', color:isSel?'#fff':'#333', textAlign:'center', fontWeight:isSel?700:'normal' }}>
+                        style={{ padding:'10px 4px', borderRadius:10, border:`1.5px solid ${isSel?'#27ae60':'#e0e0e0'}`, fontSize:13, cursor:'pointer', background:isSel?'#27ae60':'#fff', color:isSel?'#fff':'#333', textAlign:'center', fontWeight:isSel?700:'normal' }}>
                         {s.startTime}
                         <span style={{ fontSize:10, opacity:.7, display:'block', marginTop:1 }}>〜{s.endTime}</span>
                       </div>
@@ -144,8 +144,8 @@ export default function Home() {
                   })}
                 </div>
                 {selSlot && (
-                  <div style={{ background:'#fff', borderRadius:14, padding:'14px 16px', marginBottom:16, border:'2px solid #c0392b' }}>
-                    <div style={{ fontSize:11, color:'#c0392b', fontWeight:700, marginBottom:6 }}>選択中の日時</div>
+                  <div style={{ background:'#fff', borderRadius:14, padding:'14px 16px', marginBottom:16, border:'2px solid #27ae60' }}>
+                    <div style={{ fontSize:11, color:'#27ae60', fontWeight:700, marginBottom:6 }}>選択中の日時</div>
                     <div style={{ fontSize:15, fontWeight:700 }}>{formatDateLong(selDate)} {selSlot.startTime}〜{selSlot.endTime}</div>
                   </div>
                 )}
@@ -160,12 +160,12 @@ export default function Home() {
         {/* STEP3: 情報入力 */}
         {step === 3 && (
           <>
-            <div style={{ background:'#fff', borderRadius:14, padding:'14px 16px', marginBottom:16, border:'2px solid #c0392b' }}>
-              <div style={{ fontSize:11, color:'#c0392b', fontWeight:700, marginBottom:6 }}>予約内容</div>
+            <div style={{ background:'#fff', borderRadius:14, padding:'14px 16px', marginBottom:16, border:'2px solid #27ae60' }}>
+              <div style={{ fontSize:11, color:'#27ae60', fontWeight:700, marginBottom:6 }}>予約内容</div>
               <div style={{ fontSize:15, fontWeight:700 }}>{teacher?.name} 先生　{formatDateLong(selDate)} {selSlot?.startTime}〜{selSlot?.endTime}</div>
             </div>
             <div style={{ background:'#fff', borderRadius:14, padding:16, marginBottom:12 }}>
-              <div style={{ fontSize:13, fontWeight:700, color:'#c0392b', marginBottom:14 }}>生徒・保護者情報</div>
+              <div style={{ fontSize:13, fontWeight:700, color:'#27ae60', marginBottom:14 }}>生徒・保護者情報</div>
               {[
                 { id:'studentName', label:'生徒氏名', req:true, type:'text', ph:'例：東進 太郎' },
                 { id:'parentName',  label:'保護者氏名', req:true, type:'text', ph:'例：東進 花子' },
@@ -174,7 +174,7 @@ export default function Home() {
               ].map(f => (
                 <div key={f.id} style={{ marginBottom:12 }}>
                   <label style={{ display:'block', fontSize:12, color:'#888', marginBottom:5 }}>
-                    {f.label}{f.req && <span style={{ color:'#c0392b' }}>*</span>}
+                    {f.label}{f.req && <span style={{ color:'#27ae60' }}>*</span>}
                   </label>
                   {f.type === 'textarea'
                     ? <textarea value={form[f.id]} onChange={e => setForm({...form, [f.id]:e.target.value})} placeholder={f.ph} style={inputStyle} rows={3}/>
@@ -183,7 +183,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            {error && <div style={{ color:'#c0392b', fontSize:13, marginBottom:12 }}>{error}</div>}
+            {error && <div style={{ color:'#27ae60', fontSize:13, marginBottom:12 }}>{error}</div>}
             <button onClick={submitBooking} disabled={submitting} style={submitting ? disabledBtnStyle : primaryBtnStyle}>
               {submitting ? '送信中...' : '予約を確定する'}
             </button>
@@ -220,7 +220,7 @@ export default function Home() {
   );
 }
 
-const primaryBtnStyle = { width:'100%', padding:15, background:'#c0392b', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:700, cursor:'pointer', fontFamily:'sans-serif', marginBottom:0 };
+const primaryBtnStyle = { width:'100%', padding:15, background:'#27ae60', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:700, cursor:'pointer', fontFamily:'sans-serif', marginBottom:0 };
 const disabledBtnStyle = { ...primaryBtnStyle, background:'#ccc', cursor:'default' };
 const ghostBtnStyle = { width:'100%', padding:12, background:'#fff', color:'#555', border:'1.5px solid #ddd', borderRadius:12, fontSize:14, cursor:'pointer', fontFamily:'sans-serif', marginTop:10, display:'block' };
 const inputStyle = { width:'100%', padding:'11px 13px', border:'1.5px solid #e8e8e8', borderRadius:10, fontSize:14, fontFamily:'sans-serif', background:'#fafafa', outline:'none', resize:'none' };
