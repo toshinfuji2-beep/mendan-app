@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { TEACHERS, SCHOOL_NAME } from '../lib/config';
 
 const DAYS = ['日','月','火','水','木','金','土'];
@@ -15,6 +15,9 @@ function formatDateLong(d) {
 }
 
 export default function Home() {
+  const [auth, setAuth] = useState(false);
+  const [pwInput, setPwInput] = useState('');
+  const [pwError, setPwError] = useState('');
   const [step, setStep] = useState(1);
   const [teacher, setTeacher] = useState(null);
   const [slots, setSlots] = useState([]);
@@ -28,6 +31,21 @@ export default function Home() {
 
   const dates = [...new Set(slots.map(s => s.date))];
   const daySlots = slots.filter(s => s.date === selDate);
+
+  async function checkPassword() {
+    const res = await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pwInput }),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      setAuth(true);
+      setPwError('');
+    } else {
+      setPwError('パスワードが違います');
+    }
+  }
 
   async function selectTeacher(t) {
     setTeacher(t);
@@ -66,9 +84,43 @@ export default function Home() {
     setSubmitting(false);
   }
 
+  // パスワード画面
+  if (!auth) {
+    return (
+      <div style={{ minHeight:'100vh', background:'#f7f7f7', fontFamily:'sans-serif', display:'flex', alignItems:'center', justifyContent:'center' }}>
+        <div style={{ background:'#fff', borderRadius:16, padding:'32px 24px', width:'90%', maxWidth:380, boxShadow:'0 4px 20px rgba(0,0,0,0.08)' }}>
+          <div style={{ textAlign:'center', marginBottom:24 }}>
+            <div style={{ width:56, height:56, borderRadius:'50%', background:'#27ae60', margin:'0 auto 12px', display:'flex', alignItems:'center', justifyContent:'center' }}>
+              <svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#fff" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+            <div style={{ fontSize:18, fontWeight:700, marginBottom:4 }}>{SCHOOL_NAME}</div>
+            <div style={{ fontSize:13, color:'#888' }}>三者面談 オンライン予約</div>
+          </div>
+          <div style={{ marginBottom:16 }}>
+            <label style={{ display:'block', fontSize:12, color:'#888', marginBottom:6 }}>パスワードを入力してください</label>
+            <input
+              type="password"
+              value={pwInput}
+              onChange={e => setPwInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && checkPassword()}
+              placeholder="パスワード"
+              style={{ width:'100%', padding:'12px 14px', border:'1.5px solid #e8e8e8', borderRadius:10, fontSize:15, fontFamily:'sans-serif', background:'#fafafa', outline:'none', boxSizing:'border-box' }}
+            />
+          </div>
+          {pwError && <div style={{ color:'#e74c3c', fontSize:13, marginBottom:12 }}>{pwError}</div>}
+          <button onClick={checkPassword} style={{ width:'100%', padding:14, background:'#27ae60', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:700, cursor:'pointer' }}>
+            入力する
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ minHeight:'100vh', background:'#f7f7f7', fontFamily:'sans-serif' }}>
-      {/* ヘッダー */}
       <div style={{ background:'#27ae60', color:'#fff', padding:'14px 16px', position:'sticky', top:0, zIndex:100 }}>
         <div style={{ maxWidth:480, margin:'0 auto', display:'flex', alignItems:'center', gap:10 }}>
           {step > 1 && !done && (
@@ -89,7 +141,6 @@ export default function Home() {
 
       <div style={{ maxWidth:480, margin:'0 auto', padding:'16px 14px 60px' }}>
 
-        {/* STEP1: 担任選択 */}
         {step === 1 && (
           <>
             <div style={{ fontSize:12, color:'#888', marginBottom:10, fontWeight:600 }}>担当を選んでください</div>
@@ -108,7 +159,6 @@ export default function Home() {
           </>
         )}
 
-        {/* STEP2: 日時選択 */}
         {step === 2 && (
           <>
             {loading && <div style={{ textAlign:'center', padding:40, color:'#aaa' }}>読み込み中...</div>}
@@ -157,7 +207,6 @@ export default function Home() {
           </>
         )}
 
-        {/* STEP3: 情報入力 */}
         {step === 3 && (
           <>
             <div style={{ background:'#fff', borderRadius:14, padding:'14px 16px', marginBottom:16, border:'2px solid #27ae60' }}>
@@ -183,7 +232,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            {error && <div style={{ color:'#27ae60', fontSize:13, marginBottom:12 }}>{error}</div>}
+            {error && <div style={{ color:'#e74c3c', fontSize:13, marginBottom:12 }}>{error}</div>}
             <button onClick={submitBooking} disabled={submitting} style={submitting ? disabledBtnStyle : primaryBtnStyle}>
               {submitting ? '送信中...' : '予約を確定する'}
             </button>
@@ -191,7 +240,6 @@ export default function Home() {
           </>
         )}
 
-        {/* STEP4: 完了 */}
         {step === 4 && (
           <div style={{ textAlign:'center', padding:'32px 16px' }}>
             <div style={{ width:72, height:72, borderRadius:'50%', background:'#eafaf1', margin:'0 auto 16px', display:'flex', alignItems:'center', justifyContent:'center' }}>
@@ -223,4 +271,4 @@ export default function Home() {
 const primaryBtnStyle = { width:'100%', padding:15, background:'#27ae60', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:700, cursor:'pointer', fontFamily:'sans-serif', marginBottom:0 };
 const disabledBtnStyle = { ...primaryBtnStyle, background:'#ccc', cursor:'default' };
 const ghostBtnStyle = { width:'100%', padding:12, background:'#fff', color:'#555', border:'1.5px solid #ddd', borderRadius:12, fontSize:14, cursor:'pointer', fontFamily:'sans-serif', marginTop:10, display:'block' };
-const inputStyle = { width:'100%', padding:'11px 13px', border:'1.5px solid #e8e8e8', borderRadius:10, fontSize:14, fontFamily:'sans-serif', background:'#fafafa', outline:'none', resize:'none' };
+const inputStyle = { width:'100%', padding:'11px 13px', border:'1.5px solid #e8e8e8', borderRadius:10, fontSize:14, fontFamily:'sans-serif', background:'#fafafa', outline:'none', resize:'none', boxSizing:'border-box' };
