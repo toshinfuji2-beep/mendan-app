@@ -84,7 +84,6 @@ export default function Home() {
     setSubmitting(false);
   }
 
-  // パスワード画面
   if (!auth) {
     return (
       <div style={{ minHeight:'100vh', background:'#f7f7f7', fontFamily:'sans-serif', display:'flex', alignItems:'center', justifyContent:'center' }}>
@@ -171,6 +170,9 @@ export default function Home() {
             )}
             {!loading && slots.length > 0 && (
               <>
+                <div style={{ background:'#eafaf1', border:'1.5px solid #27ae60', borderRadius:10, padding:'10px 14px', marginBottom:14, fontSize:13, color:'#1e8449' }}>
+                  ご都合の良い中で、できるだけ早い日程をお選びいただけますと幸いです
+                </div>
                 <div style={{ fontSize:12, color:'#888', marginBottom:10, fontWeight:600 }}>日付を選んでください</div>
                 <div style={{ display:'flex', gap:8, overflowX:'auto', paddingBottom:4, marginBottom:16 }}>
                   {dates.map(d => (
