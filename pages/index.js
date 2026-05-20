@@ -66,7 +66,7 @@ export default function Home() {
   }
 
   async function submitBooking() {
-    if (!form.studentName || !form.parentName) { setError('必須項目を入力してください'); return; }
+    if (!form.studentName || !form.parentName || !form.email) { setError('必須項目を入力してください'); return; }
     setSubmitting(true);
     setError('');
     try {
@@ -226,7 +226,7 @@ export default function Home() {
               {[
                 { id:'studentName', label:'生徒氏名', req:true, type:'text', ph:'例：東進 太郎' },
                 { id:'parentName',  label:'保護者氏名', req:true, type:'text', ph:'例：東進 花子' },
-                { id:'email',       label:'メールアドレス（確認メール送付）', req:false, type:'email', ph:'example@gmail.com' },
+                { id:'email',       label:'メールアドレス（確認メール送付）', req:true, type:'email', ph:'example@gmail.com' },
                 { id:'notes',       label:'ご要望・相談内容（任意）', req:false, type:'textarea', ph:'事前にお伝えしたいことがあればご記入ください' },
               ].map(f => (
                 <div key={f.id} style={{ marginBottom:12 }}>
@@ -262,9 +262,10 @@ export default function Home() {
               <span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>日時</span>{formatDateLong(selDate)} {selSlot?.startTime}〜{selSlot?.endTime}
               <span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>生徒</span>{form.studentName}
               <span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>保護者</span>{form.parentName}
-              {form.email && <><span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>確認メール</span>{form.email}</>}
+              <span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>確認メール</span>{form.email}
             </div>
-            {form.email && <p style={{ fontSize:12, color:'#aaa' }}>確認メールを送信しました</p>}
+            <p style={{ fontSize:12, color:'#aaa' }}>確認メールを送信しました</p>
+            <p style={{ fontSize:12, color:'#e74c3c', fontWeight:700 }}>この画面のスクリーンショットを保存してください</p>
             <button onClick={() => { setStep(1); setTeacher(null); setSlots([]); setSelDate(null); setSelSlot(null); setForm({studentName:'',parentName:'',email:'',notes:''}); setDone(false); }} style={{ ...ghostBtnStyle, marginTop:20 }}>
               トップに戻る
             </button>
