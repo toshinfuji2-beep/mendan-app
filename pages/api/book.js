@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   const { teacherId, date, startTime, endTime, studentName, parentName, email, notes } = req.body;
   if (!teacherId || !date || !startTime || !endTime || !studentName || !parentName || !email) {
-    return res.status(400).json({ error: 'error' });
+    return res.status(400).json({ error: '必須項目を入力してください' });
   }
 
   const teacher = TEACHERS.find(t => t.id === teacherId);
@@ -15,12 +15,12 @@ export default async function handler(req, res) {
 
   try {
     // 同じメールアドレスの予約チェック
-    const duplicate = await checkDuplicateEmail(email, teacherId, date, startTime);
+    const duplicate = await checkDuplicateEmail(email);
     if (duplicate) {
       await sendDuplicateAlert({ email, studentName, parentName, newTeacher: teacher, newDate: date, newStartTime: startTime, newEndTime: endTime, existing: duplicate });
     }
 
-    await createBooking({ teacherId, date, startTime, endTime, studentName, parentName });
+    await createBooking({ teacherId, date, startTime, endTime, studentName, parentName, email });
     await sendNotification({ teacher, date, startTime, endTime, studentName, parentName, email, notes });
     res.status(200).json({ success: true });
   } catch (err) {
