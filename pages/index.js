@@ -160,7 +160,13 @@ export default function Home() {
 
         {step === 2 && (
           <>
-            {loading && <div style={{ textAlign:'center', padding:40, color:'#aaa' }}>読み込み中...</div>}
+            {loading && (
+              <div style={{ textAlign:'center', padding:40, color:'#888' }}>
+                <div style={{ fontSize:32, marginBottom:12 }}>📅</div>
+                <div style={{ fontWeight:700, marginBottom:6, fontSize:15 }}>面談可能時間を確認中です</div>
+                <div style={{ fontSize:13, color:'#aaa' }}>しばらくお待ちください<br/>（時間がかかる場合があります）</div>
+              </div>
+            )}
             {!loading && slots.length === 0 && (
               <div style={{ textAlign:'center', padding:40, color:'#aaa' }}>
                 <div style={{ fontSize:40, marginBottom:12 }}>📅</div>
