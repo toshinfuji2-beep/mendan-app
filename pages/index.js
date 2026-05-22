@@ -226,7 +226,6 @@ export default function Home() {
               {[
                 { id:'studentName', label:'生徒氏名', req:true, type:'text', ph:'例：東進 太郎' },
                 { id:'parentName',  label:'保護者氏名', req:true, type:'text', ph:'例：東進 花子' },
-                { id:'email',       label:'メールアドレス（確認メール送付）', req:true, type:'email', ph:'example@gmail.com' },
                 { id:'notes',       label:'ご要望・相談内容（任意）', req:false, type:'textarea', ph:'事前にお伝えしたいことがあればご記入ください' },
               ].map(f => (
                 <div key={f.id} style={{ marginBottom:12 }}>
@@ -239,6 +238,21 @@ export default function Home() {
                   }
                 </div>
               ))}
+              <div style={{ marginBottom:12 }}>
+                <label style={{ display:'block', fontSize:12, color:'#888', marginBottom:5 }}>
+                  メールアドレス<span style={{ color:'#27ae60' }}>*</span>
+                </label>
+                <input
+                  type="email"
+                  value={form.email}
+                  onChange={e => setForm({...form, email:e.target.value})}
+                  placeholder="example@gmail.com"
+                  style={inputStyle}
+                />
+                <div style={{ fontSize:11, color:'#aaa', marginTop:5 }}>
+                  ご入力いただいたメールアドレスに予約確認メールをお送りします
+                </div>
+              </div>
             </div>
             {error && <div style={{ color:'#e74c3c', fontSize:13, marginBottom:12 }}>{error}</div>}
             <button onClick={submitBooking} disabled={submitting} style={submitting ? disabledBtnStyle : primaryBtnStyle}>
