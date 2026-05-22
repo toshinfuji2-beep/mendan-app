@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { TEACHERS, SCHOOL_NAME } from '../lib/config';
 
 const DAYS = ['日','月','火','水','木','金','土'];
-const SESSION_TIMEOUT = 30 * 60 * 1000; // 30分
 
 function formatDate(d) {
   const [y,m,day] = d.split('-').map(Number);
@@ -29,34 +28,9 @@ export default function Home() {
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState('');
-  const timerRef = useRef(null);
 
-  function resetTimer() {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => {
-      setAuth(false);
-      setStep(1);
-      setTeacher(null);
-      setSlots([]);
-      setSelDate(null);
-      setSelSlot(null);
-      setForm({ studentName:'', parentName:'', email:'', notes:'' });
-      setDone(false);
-      setError('');
-      alert('セッションの有効期限が切れました。再度パスワードを入力してください。');
-    }, SESSION_TIMEOUT);
-  }
-
-  useEffect(() => {
-    if (!auth) return;
-    resetTimer();
-    const events = ['click', 'touchstart', 'keydown'];
-    events.forEach(e => window.addEventListener(e, resetTimer));
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      events.forEach(e => window.removeEventListener(e, resetTimer));
-    };
-  }, [auth]);
+  const dates = [...new Set(slots.map(s => s.date))];
+  const daySlots = slots.filter(s => s.date === selDate);
 
   async function checkPassword() {
     const res = await fetch('/api/auth', {
