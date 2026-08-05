@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TEACHERS, SCHOOL_NAME } from '../lib/config';
 
-const DAYS = ['日','月','火','水','木','金','土'];
+const DAYS = ['日','朁E,'火','水','木','釁E,'圁E];
 
 function formatDate(d) {
   const [y,m,day] = d.split('-').map(Number);
@@ -11,7 +11,7 @@ function formatDate(d) {
 function formatDateLong(d) {
   const [y,m,day] = d.split('-').map(Number);
   const dt = new Date(y, m-1, day);
-  return `${m}月${day}日（${DAYS[dt.getDay()]}）`;
+  return `${m}朁E{day}日�E�E{DAYS[dt.getDay()]}�E�`;
 }
 
 export default function Home() {
@@ -43,7 +43,7 @@ export default function Home() {
       setAuth(true);
       setPwError('');
     } else {
-      setPwError('パスワードが違います');
+      setPwError('パスワードが違いまぁE);
     }
   }
 
@@ -60,13 +60,13 @@ export default function Home() {
       setSlots(data.slots || []);
       if (data.slots?.length > 0) setSelDate(data.slots[0].date);
     } catch {
-      setError('空き時間の取得に失敗しました');
+      setError('空き時間�E取得に失敗しました');
     }
     setLoading(false);
   }
 
   async function submitBooking() {
-    if (!form.studentName || !form.parentName || !form.email) { setError('必須項目を入力してください'); return; }
+    if (!form.studentName || !form.parentName || !form.email) { setError('忁E��頁E��を�E力してください'); return; }
     setSubmitting(true);
     setError('');
     try {
@@ -96,7 +96,7 @@ export default function Home() {
               </svg>
             </div>
             <div style={{ fontSize:18, fontWeight:700, marginBottom:4 }}>{SCHOOL_NAME}</div>
-            <div style={{ fontSize:13, color:'#888' }}>三者面談 オンライン予約</div>
+            <div style={{ fontSize:13, color:'#888' }}>三老E��諁Eオンライン予紁E/div>
           </div>
           <div style={{ marginBottom:16 }}>
             <label style={{ display:'block', fontSize:12, color:'#888', marginBottom:6 }}>パスワードを入力してください</label>
@@ -105,14 +105,13 @@ export default function Home() {
               value={pwInput}
               onChange={e => setPwInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && checkPassword()}
-              placeholder="パスワード"
+              placeholder="パスワーチE
               style={{ width:'100%', padding:'12px 14px', border:'1.5px solid #e8e8e8', borderRadius:10, fontSize:15, fontFamily:'sans-serif', background:'#fafafa', outline:'none', boxSizing:'border-box' }}
             />
           </div>
           {pwError && <div style={{ color:'#e74c3c', fontSize:13, marginBottom:12 }}>{pwError}</div>}
           <button onClick={checkPassword} style={{ width:'100%', padding:14, background:'#27ae60', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:700, cursor:'pointer' }}>
-            入力する
-          </button>
+            入力すめE          </button>
         </div>
       </div>
     );
@@ -124,15 +123,15 @@ export default function Home() {
         <div style={{ maxWidth:480, margin:'0 auto', display:'flex', alignItems:'center', gap:10 }}>
           {step > 1 && !done && (
             <button onClick={() => { if(step===2){setStep(1);setTeacher(null);} else if(step===3){setStep(2);setSelSlot(null);} }}
-              style={{ background:'none', border:'none', color:'#fff', fontSize:20, cursor:'pointer' }}>←</button>
+              style={{ background:'none', border:'none', color:'#fff', fontSize:20, cursor:'pointer' }}>ↁE/button>
           )}
           <div>
             <div style={{ fontSize:16, fontWeight:700 }}>{SCHOOL_NAME}</div>
             <div style={{ fontSize:11, opacity:.85 }}>
-              {step===1 && '三者面談 オンライン予約'}
+              {step===1 && '三老E��諁Eオンライン予紁E}
               {step===2 && `${teacher?.name} 先生の空き時間`}
-              {step===3 && '情報を入力してください'}
-              {step===4 && '予約完了'}
+              {step===3 && '惁E��を�E力してください'}
+              {step===4 && '予紁E��亁E}
             </div>
           </div>
         </div>
@@ -142,7 +141,7 @@ export default function Home() {
 
         {step === 1 && (
           <>
-            <div style={{ fontSize:12, color:'#888', marginBottom:10, fontWeight:600 }}>担当を選んでください</div>
+            <div style={{ fontSize:12, color:'#888', marginBottom:10, fontWeight:600 }}>拁E��を選んでください</div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
               {TEACHERS.map(t => (
                 <div key={t.id} onClick={() => selectTeacher(t)}
@@ -151,7 +150,7 @@ export default function Home() {
                     {t.name[0]}
                   </div>
                   <div style={{ fontSize:15, fontWeight:700, marginBottom:2 }}>{t.name} 先生</div>
-                  <div style={{ fontSize:11, color:'#aaa' }}>空きを確認する</div>
+                  <div style={{ fontSize:11, color:'#aaa' }}>空きを確認すめE/div>
                 </div>
               ))}
             </div>
@@ -163,22 +162,21 @@ export default function Home() {
             {loading && (
               <div style={{ textAlign:'center', padding:40, color:'#888' }}>
                 <div style={{ fontSize:32, marginBottom:12 }}>📅</div>
-                <div style={{ fontWeight:700, marginBottom:6, fontSize:15 }}>面談可能時間を確認中です</div>
-                <div style={{ fontSize:13, color:'#aaa' }}>しばらくお待ちください<br/>（時間がかかる場合があります）</div>
+                <div style={{ fontWeight:700, marginBottom:6, fontSize:15 }}>面諁E��能時間を確認中でぁE/div>
+                <div style={{ fontSize:13, color:'#aaa' }}>し�Eらくお征E��ください<br/>�E�時間がかかる場合があります！E/div>
               </div>
             )}
             {!loading && slots.length === 0 && (
               <div style={{ textAlign:'center', padding:40, color:'#aaa' }}>
                 <div style={{ fontSize:40, marginBottom:12 }}>📅</div>
                 <div style={{ fontWeight:700, marginBottom:6 }}>{teacher?.name}先生の空き時間がありません</div>
-                <button onClick={() => setStep(1)} style={ghostBtnStyle}>担当を選び直す</button>
+                <button onClick={() => setStep(1)} style={ghostBtnStyle}>拁E��を選び直ぁE/button>
               </div>
             )}
             {!loading && slots.length > 0 && (
               <>
                 <div style={{ background:'#eafaf1', border:'1.5px solid #27ae60', borderRadius:10, padding:'10px 14px', marginBottom:14, fontSize:13, color:'#1e8449' }}>
-                  ご都合の良い中で、できるだけ早い日程をお選びいただけますと幸いです
-                </div>
+                  ご�E合�E良ぁE��で、できるだけ早ぁE��程をお選びぁE��だけますと幸ぁE��ぁE                </div>
                 <div style={{ fontSize:12, color:'#888', marginBottom:10, fontWeight:600 }}>日付を選んでください</div>
                 <div style={{ display:'flex', gap:8, overflowX:'auto', paddingBottom:4, marginBottom:16 }}>
                   {dates.map(d => (
@@ -203,13 +201,12 @@ export default function Home() {
                 </div>
                 {selSlot && (
                   <div style={{ background:'#fff', borderRadius:14, padding:'14px 16px', marginBottom:16, border:'2px solid #27ae60' }}>
-                    <div style={{ fontSize:11, color:'#27ae60', fontWeight:700, marginBottom:6 }}>選択中の日時</div>
+                    <div style={{ fontSize:11, color:'#27ae60', fontWeight:700, marginBottom:6 }}>選択中の日晁E/div>
                     <div style={{ fontSize:15, fontWeight:700 }}>{formatDateLong(selDate)} {selSlot.startTime}〜{selSlot.endTime}</div>
                   </div>
                 )}
                 <button onClick={() => setStep(3)} disabled={!selSlot} style={selSlot ? primaryBtnStyle : disabledBtnStyle}>
-                  次へ　入力画面へ →
-                </button>
+                  次へ　入力画面へ ↁE                </button>
               </>
             )}
           </>
@@ -218,15 +215,15 @@ export default function Home() {
         {step === 3 && (
           <>
             <div style={{ background:'#fff', borderRadius:14, padding:'14px 16px', marginBottom:16, border:'2px solid #27ae60' }}>
-              <div style={{ fontSize:11, color:'#27ae60', fontWeight:700, marginBottom:6 }}>予約内容</div>
+              <div style={{ fontSize:11, color:'#27ae60', fontWeight:700, marginBottom:6 }}>予紁E�E容</div>
               <div style={{ fontSize:15, fontWeight:700 }}>{teacher?.name} 先生　{formatDateLong(selDate)} {selSlot?.startTime}〜{selSlot?.endTime}</div>
             </div>
             <div style={{ background:'#fff', borderRadius:14, padding:16, marginBottom:12 }}>
-              <div style={{ fontSize:13, fontWeight:700, color:'#27ae60', marginBottom:14 }}>生徒・保護者情報</div>
+              <div style={{ fontSize:13, fontWeight:700, color:'#27ae60', marginBottom:14 }}>生徒�E保護老E��報</div>
               {[
-                { id:'studentName', label:'生徒氏名', req:true, type:'text', ph:'例：東進 太郎' },
-                { id:'parentName',  label:'保護者氏名', req:true, type:'text', ph:'例：東進 花子' },
-                { id:'notes',       label:'ご要望・相談内容（任意）', req:false, type:'textarea', ph:'事前にお伝えしたいことがあればご記入ください' },
+                { id:'studentName', label:'生徒氏名', req:true, type:'text', ph:'例：東進 太郁E },
+                { id:'parentName',  label:'保護老E��名', req:true, type:'text', ph:'例：東進 花孁E },
+
               ].map(f => (
                 <div key={f.id} style={{ marginBottom:12 }}>
                   <label style={{ display:'block', fontSize:12, color:'#888', marginBottom:5 }}>
@@ -250,15 +247,14 @@ export default function Home() {
                   style={inputStyle}
                 />
                 <div style={{ fontSize:11, color:'#aaa', marginTop:5 }}>
-                  ご入力いただいたメールアドレスに予約確認メールをお送りします
-                </div>
+                  ご�E力いただぁE��メールアドレスに予紁E��認メールをお送りしまぁE                </div>
               </div>
             </div>
             {error && <div style={{ color:'#e74c3c', fontSize:13, marginBottom:12 }}>{error}</div>}
             <button onClick={submitBooking} disabled={submitting} style={submitting ? disabledBtnStyle : primaryBtnStyle}>
-              {submitting ? '送信中...' : '予約を確定する'}
+              {submitting ? '送信中...' : '予紁E��確定すめE}
             </button>
-            <button onClick={() => { setStep(2); setError(''); }} style={ghostBtnStyle}>← 日時を選び直す</button>
+            <button onClick={() => { setStep(2); setError(''); }} style={ghostBtnStyle}>ↁE日時を選び直ぁE/button>
           </>
         )}
 
@@ -269,20 +265,19 @@ export default function Home() {
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
             </div>
-            <h2 style={{ fontSize:20, fontWeight:700, marginBottom:8 }}>ご予約完了！</h2>
-            <p style={{ fontSize:14, color:'#666', lineHeight:1.7 }}>三者面談のご予約を承りました。<br/>当日はよろしくお願いいたします。</p>
+            <h2 style={{ fontSize:20, fontWeight:700, marginBottom:8 }}>ご予紁E��亁E��E/h2>
+            <p style={{ fontSize:14, color:'#666', lineHeight:1.7 }}>三老E��諁E�Eご予紁E��承りました、Ebr/>当日はよろしくお願いぁE��します、E/p>
             <div style={{ background:'#f7f7f7', borderRadius:12, padding:'14px 16px', margin:'16px 0', textAlign:'left', fontSize:13, lineHeight:2.4 }}>
-              <span style={{ color:'#888', fontSize:11, display:'block' }}>担当</span>{teacher?.name} 先生
-              <span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>日時</span>{formatDateLong(selDate)} {selSlot?.startTime}〜{selSlot?.endTime}
-              <span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>生徒</span>{form.studentName}
-              <span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>保護者</span>{form.parentName}
+              <span style={{ color:'#888', fontSize:11, display:'block' }}>拁E��E/span>{teacher?.name} 先生
+              <span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>日晁E/span>{formatDateLong(selDate)} {selSlot?.startTime}〜{selSlot?.endTime}
+              <span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>生征E/span>{form.studentName}
+              <span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>保護老E/span>{form.parentName}
               <span style={{ color:'#888', fontSize:11, display:'block', marginTop:8 }}>確認メール</span>{form.email}
             </div>
             <p style={{ fontSize:12, color:'#aaa' }}>確認メールを送信しました</p>
-            <p style={{ fontSize:12, color:'#e74c3c', fontWeight:700 }}>この画面のスクリーンショットを保存してください</p>
+            <p style={{ fontSize:12, color:'#e74c3c', fontWeight:700 }}>こ�E画面のスクリーンショチE��を保存してください</p>
             <button onClick={() => { setStep(1); setTeacher(null); setSlots([]); setSelDate(null); setSelSlot(null); setForm({studentName:'',parentName:'',email:'',notes:''}); setDone(false); }} style={{ ...ghostBtnStyle, marginTop:20 }}>
-              トップに戻る
-            </button>
+              トップに戻めE            </button>
           </div>
         )}
 
