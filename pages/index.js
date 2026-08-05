@@ -1,7 +1,7 @@
 ﻿import { useState } from 'react';
 import { TEACHERS, SCHOOL_NAME } from '../lib/config';
 
-const DAYS = ['日','朁E,'火','水','木','釁E,'圁E];
+const DAYS = ['日','月','火','水','木','金','土'];
 
 function formatDate(d) {
   const [y,m,day] = d.split('-').map(Number);
@@ -290,4 +290,6 @@ const primaryBtnStyle = { width:'100%', padding:15, background:'#27ae60', color:
 const disabledBtnStyle = { ...primaryBtnStyle, background:'#ccc', cursor:'default' };
 const ghostBtnStyle = { width:'100%', padding:12, background:'#fff', color:'#555', border:'1.5px solid #ddd', borderRadius:12, fontSize:14, cursor:'pointer', fontFamily:'sans-serif', marginTop:10, display:'block' };
 const inputStyle = { width:'100%', padding:'11px 13px', border:'1.5px solid #e8e8e8', borderRadius:10, fontSize:14, fontFamily:'sans-serif', background:'#fafafa', outline:'none', resize:'none', boxSizing:'border-box' };
+
+
 
