@@ -1,4 +1,4 @@
-import { createBooking, checkDuplicateEmail } from '../../lib/calendar';
+﻿import { createBooking, checkDuplicateEmail } from '../../lib/calendar';
 import { sendNotification, sendDuplicateAlert } from '../../lib/mailer';
 import { TEACHERS } from '../../lib/config';
 
@@ -28,3 +28,5 @@ export default async function handler(req, res) {
     res.status(400).json({ error: err.message });
   }
 }
+
+
