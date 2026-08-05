@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       await sendDuplicateAlert({ email, studentName, parentName, newTeacher: teacher, newDate: date, newStartTime: startTime, newEndTime: endTime, existing: duplicate });
     }
 
-    await createBooking({ teacherId, date, startTime, endTime, studentName, parentName, email });
+    await createBooking({ teacherId, date, startTime, endTime, studentName, parentName, email, notes });
     await sendNotification({ teacher, date, startTime, endTime, studentName, parentName, email, notes });
     res.status(200).json({ success: true });
   } catch (err) {
